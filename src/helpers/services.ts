@@ -1,39 +1,34 @@
-enum QuoteActions {
-  QUOTE_LOADING = "QUOTE_LOADING",
-  QUOTE_SUCCESS = "QUOTE_SUCCESS",
-  QUOTE_FAIL = "QUOTE_FAIL"
-}
-
-interface ActionType {
-  type: QuoteActions;
-  payload?: object;
-  message?: string;
-}
+import {
+  QuoteAction,
+  quoteFailureAction,
+  quoteLoadingAction,
+  qouteSuccessAction
+} from "../store/store";
 
 const QUOTE_ENDPOINT = "http://quotes.rest/qod";
 
 export const getRandomQuote = (
-  dispatch: (action: ActionType) => void
+  dispatch: (action: QuoteAction) => void
 ): void => {
-  dispatch({ type: QuoteActions.QUOTE_LOADING });
+  dispatch(quoteLoadingAction());
 
   fetch(QUOTE_ENDPOINT)
     .then(response => {
       if (!response.ok) {
+        dispatch(quoteFailureAction({ message: response.statusText }));
         throw new Error(response.statusText);
       }
       return response.json();
     })
     .then(val =>
-      dispatch({
-        type: QuoteActions.QUOTE_SUCCESS,
-        payload: {
-          text: val.contents.quotes[0].quote,
-          author: val.contents.quotes[0].author
-        }
-      })
+      dispatch(
+        qouteSuccessAction({
+          author: val.contents.quotes[0].author,
+          text: val.contents.quotes[0].text
+        })
+      )
     )
     .catch((error: Error) => {
-      dispatch({ type: QuoteActions.QUOTE_FAIL, message: error.message });
+      dispatch(quoteFailureAction({ message: error.message }));
     });
 };
