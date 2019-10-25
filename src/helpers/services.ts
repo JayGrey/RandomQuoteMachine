@@ -24,7 +24,7 @@ export const getRandomQuote = (
       dispatch(
         qouteSuccessAction({
           author: val.contents.quotes[0].author,
-          text: val.contents.quotes[0].text
+          text: val.contents.quotes[0].quote
         })
       )
     )

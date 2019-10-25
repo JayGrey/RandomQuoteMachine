@@ -35,6 +35,7 @@ export const QuoteBox = ({
               className="btn btn-primary"
               id="new-quote"
               onClick={newQuoteHandler}
+              disabled={loading}
             >
               {loading && (
                 <span
@@ -50,6 +51,8 @@ export const QuoteBox = ({
               className="btn btn-info ml-3"
               id="tweet-quote"
               href={formTweetURL("https://twitter.com/intent/tweet?text=", text)}
+              target="_blank"
+              
             >
               <i className="fa fa-twitter" aria-hidden="true"></i>
               <span> tweet</span>
@@ -62,6 +65,6 @@ export const QuoteBox = ({
 };
 
 QuoteBox.defaultProps = {
-  text: "#quoteTextPlaceholder",
-  author: "#quoteAuthorPlaceholder"
+  text: "",
+  author: ""
 };
