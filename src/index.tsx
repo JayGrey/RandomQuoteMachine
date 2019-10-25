@@ -1,10 +1,8 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
+import { App } from "./containers/App";
 
-export const App = () => {
-    return <p>App component</p>;
-  };
   
 ReactDOM.render(<App />, document.getElementById("root"));
 
