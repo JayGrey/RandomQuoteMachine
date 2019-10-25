@@ -1,5 +1,7 @@
 import * as React from "react";
 
+import {formTweetURL} from "../helpers/utils";
+
 interface QuoteBoxProps {
   text: string;
   author: string;
@@ -47,7 +49,7 @@ export const QuoteBox = ({
             <a
               className="btn btn-info ml-3"
               id="tweet-quote"
-              href={"https://twitter.com/intent/tweet?text=" + encodeURI(text)}
+              href={formTweetURL("https://twitter.com/intent/tweet?text=", text)}
             >
               <i className="fa fa-twitter" aria-hidden="true"></i>
               <span> tweet</span>

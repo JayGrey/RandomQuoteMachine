@@ -30,24 +30,7 @@ export class App extends React.Component<{}, AppState> {
 
   getNewQuote() {
     this.setState(state => ({ ...state, loading: true }));
-
-    fetch("http://quotes.rest/qod")
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(response.statusText);
-        }
-        return response.json();
-      })
-      .then(val =>
-        this.updateQuote(
-          val.contents.quotes[0].quote,
-          val.contents.quotes[0].author
-        )
-      )
-      .finally(() => {
-        this.setState(state => ({ ...state, loading: false }));
-      });
-
+    
     console.log("getNewQuote clicked");
   }
 
