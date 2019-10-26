@@ -1,25 +1,15 @@
 import * as redux from "redux";
 import thunk from "redux-thunk";
 
-import * as service from "../helpers/services";
+import { QuoteAction, QuoteActions } from "./actions";
 
-export enum QuoteActions {
-  QUOTE_LOADING = "QUOTE_LOADING",
-  QUOTE_SUCCESS = "QUOTE_SUCCESS",
-  QUOTE_FAIL = "QUOTE_FAIL"
-}
-
-interface SuccessPayload {
+export interface SuccessPayload {
   author: string;
   text: string;
 }
 
-interface FailurePayload {
+export interface FailurePayload {
   message: string;
-}
-
-export interface QuoteAction extends redux.Action<QuoteActions> {
-  payload?: SuccessPayload | FailurePayload;
 }
 
 export interface StoreState {
@@ -34,30 +24,6 @@ const initialState: StoreState = {
   text: "",
   loading: false,
   message: null
-};
-
-export const quoteLoadingAction = (): QuoteAction => ({
-  type: QuoteActions.QUOTE_LOADING
-});
-
-export const qouteSuccessAction = (payload: SuccessPayload): QuoteAction => ({
-  type: QuoteActions.QUOTE_SUCCESS,
-  payload
-});
-
-export const quoteFailureAction = (payload: FailurePayload): QuoteAction => ({
-  type: QuoteActions.QUOTE_FAIL,
-  payload
-});
-
-export const getQuote = () => async (dispatch: redux.Dispatch<QuoteAction>) => {
-  dispatch(quoteLoadingAction());
-  try {
-    const quote = await service.getRandomQuote();
-    dispatch(qouteSuccessAction(quote));
-  } catch (error) {
-    dispatch(quoteFailureAction({ message: error.message }));
-  }
 };
 
 const reducer = (store: StoreState = initialState, action: QuoteAction) => {

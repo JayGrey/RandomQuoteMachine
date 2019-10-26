@@ -2,7 +2,8 @@ import * as React from "react";
 import * as ReactRedux from "react-redux";
 
 import { QuoteBox } from "../components/QuoteBox";
-import { StoreState, getQuote } from "../store/store";
+import { StoreState } from "../store/store";
+import { getQuote } from "../store/actions";
 
 interface AppProps {
   text: string;
@@ -13,7 +14,6 @@ interface AppProps {
 class App extends React.Component<AppProps, {}> {
   constructor(props: any) {
     super(props);
-
   }
 
   componentDidMount() {
