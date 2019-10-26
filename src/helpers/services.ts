@@ -1,34 +1,14 @@
-import {
-  QuoteAction,
-  quoteFailureAction,
-  quoteLoadingAction,
-  qouteSuccessAction
-} from "../store/store";
-
 const QUOTE_ENDPOINT = "http://quotes.rest/qod";
 
-export const getRandomQuote = (
-  dispatch: (action: QuoteAction) => void
-): void => {
-  dispatch(quoteLoadingAction());
+export const getRandomQuote = async () => {
+  const result = await fetch(QUOTE_ENDPOINT);
+  if (!result.ok) {
+    throw new Error("server response error");
+  }
+  const response = await result.json();
 
-  fetch(QUOTE_ENDPOINT)
-    .then(response => {
-      if (!response.ok) {
-        dispatch(quoteFailureAction({ message: response.statusText }));
-        throw new Error(response.statusText);
-      }
-      return response.json();
-    })
-    .then(val =>
-      dispatch(
-        qouteSuccessAction({
-          author: val.contents.quotes[0].author,
-          text: val.contents.quotes[0].quote
-        })
-      )
-    )
-    .catch((error: Error) => {
-      dispatch(quoteFailureAction({ message: error.message }));
-    });
+  return {
+    author: response.contents.quotes[0].author,
+    text: response.contents.quotes[0].quote
+  };
 };

@@ -2,8 +2,7 @@ import * as React from "react";
 import * as ReactRedux from "react-redux";
 
 import { QuoteBox } from "../components/QuoteBox";
-import { getRandomQuote } from "../helpers/services";
-import { StoreState } from "../store/store";
+import { StoreState, getQuote } from "../store/store";
 
 interface AppProps {
   text: string;
@@ -15,28 +14,10 @@ class App extends React.Component<AppProps, {}> {
   constructor(props: any) {
     super(props);
 
-    // this.state = {
-    //   text: "",
-    //   author: "",
-    //   loading: false
-    // };
-
-    this.getNewQuote = this.getNewQuote.bind(this);
   }
 
   componentDidMount() {
-    this.getNewQuote();
-  }
-
-  // updateQuote(text: string, author: string) {
-  //   this.setState(state => ({ ...state, author, text }));
-  // }
-
-  getNewQuote() {
-    // this.setState(state => ({ ...state, loading: true }));
     this.props.getQuote();
-
-    console.log("getNewQuote clicked");
   }
 
   render() {
@@ -45,7 +26,7 @@ class App extends React.Component<AppProps, {}> {
       <QuoteBox
         text={text}
         author={author}
-        newQuoteHandler={this.getNewQuote}
+        newQuoteHandler={() => this.props.getQuote()}
         loading={loading}
       />
     );
@@ -58,8 +39,8 @@ const mapStatetoProps = (state: StoreState) => ({
   loading: state.loading
 });
 
-const mapDispatchToProps = (dispatch: (action: any) => void) => ({
-  getQuote: () => getRandomQuote(dispatch)
-});
+const mapDispatchToProps = {
+  getQuote
+};
 
 export default ReactRedux.connect(mapStatetoProps, mapDispatchToProps)(App);

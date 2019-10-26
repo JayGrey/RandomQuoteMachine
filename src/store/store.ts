@@ -1,4 +1,7 @@
 import * as redux from "redux";
+import thunk from "redux-thunk";
+
+import * as service from "../helpers/services";
 
 export enum QuoteActions {
   QUOTE_LOADING = "QUOTE_LOADING",
@@ -30,7 +33,7 @@ const initialState: StoreState = {
   author: "",
   text: "",
   loading: false,
-  message: null,
+  message: null
 };
 
 export const quoteLoadingAction = (): QuoteAction => ({
@@ -46,6 +49,16 @@ export const quoteFailureAction = (payload: FailurePayload): QuoteAction => ({
   type: QuoteActions.QUOTE_FAIL,
   payload
 });
+
+export const getQuote = () => async (dispatch: redux.Dispatch<QuoteAction>) => {
+  dispatch(quoteLoadingAction());
+  try {
+    const quote = await service.getRandomQuote();
+    dispatch(qouteSuccessAction(quote));
+  } catch (error) {
+    dispatch(quoteFailureAction({ message: error.message }));
+  }
+};
 
 const reducer = (store: StoreState = initialState, action: QuoteAction) => {
   switch (action.type) {
@@ -72,4 +85,4 @@ const reducer = (store: StoreState = initialState, action: QuoteAction) => {
   }
 };
 
-export const store = redux.createStore(reducer);
+export const store = redux.createStore(reducer, redux.applyMiddleware(thunk));
