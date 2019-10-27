@@ -1,9 +1,9 @@
-import * as redux from "redux";
+import * as Redux from "redux";
 
 import { SuccessPayload, FailurePayload } from "./store";
 import * as service from "../helpers/services";
 
-export interface QuoteAction extends redux.Action<QuoteActions> {
+export interface QuoteAction extends Redux.Action<QuoteActions> {
   payload?: SuccessPayload | FailurePayload;
 }
 
@@ -27,7 +27,7 @@ const quoteFailureAction = (payload: FailurePayload): QuoteAction => ({
   payload
 });
 
-export const getQuote = () => async (dispatch: redux.Dispatch<QuoteAction>) => {
+export const getQuote = () => async (dispatch: Redux.Dispatch<QuoteAction>) => {
   dispatch(quoteLoadingAction());
   try {
     const quote = await service.getRandomQuote();

@@ -1,4 +1,4 @@
-import * as redux from "redux";
+import * as Redux from "redux";
 import thunk from "redux-thunk";
 
 import { QuoteAction, QuoteActions } from "./actions";
@@ -51,4 +51,4 @@ const reducer = (store: StoreState = initialState, action: QuoteAction) => {
   }
 };
 
-export const store = redux.createStore(reducer, redux.applyMiddleware(thunk));
+export const store = Redux.createStore(reducer, Redux.applyMiddleware(thunk));
