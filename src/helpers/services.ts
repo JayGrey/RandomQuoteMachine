@@ -1,4 +1,7 @@
-const QUOTE_ENDPOINT = "http://quotes.rest/qod";
+// const QUOTE_ENDPOINT = "http://quotes.rest/qod";
+
+const QUOTE_ENDPOINT = "https://fcc-server.herokuapp.com/rqm";
+
 
 export const getRandomQuote = async () => {
   const result = await fetch(QUOTE_ENDPOINT);
@@ -8,7 +11,7 @@ export const getRandomQuote = async () => {
   const response = await result.json();
 
   return {
-    author: response.contents.quotes[0].author,
-    text: response.contents.quotes[0].quote
+    author: response.author,
+    text: response.text
   };
 };
